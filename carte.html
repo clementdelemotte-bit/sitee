@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Carte de visite — v8 (proposition verso)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Italiana&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --forest:       #001401;
+    --forest-deep:  #00080a;
+    --ivory:        #f3ede0;
+    --bone:         #e8dfca;
+    --glow:         #ffffff;
+    --serif:        'Cinzel', Georgia, serif;
+    --display:      'Italiana', 'Cinzel', serif;
+    --body:         'EB Garamond', Georgia, serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#0b0b0b;color:var(--ivory);font-family:var(--body);min-height:100%}
+  body{
+    padding:64px 32px 96px;
+    display:flex;flex-direction:column;align-items:center;gap:48px;
+  }
+  .page-title{
+    font-family:var(--display);
+    font-size:22px;letter-spacing:.3em;text-transform:uppercase;
+    color:#888;font-weight:400;
+  }
+  .stage{
+    display:flex;flex-direction:column;align-items:center;gap:56px;
+    width:100%;max-width:760px;
+  }
+  .label{
+    font-family:var(--serif);
+    font-size:11px;letter-spacing:.55em;text-transform:uppercase;
+    color:#5a5c53;font-weight:400;
+  }
+
+  /* ==== CARTE — format 85 × 55 mm (ratio 1.545) ==== */
+  .card{
+    position:relative;
+    width:min(86vw, 620px);
+    aspect-ratio: 85 / 55;
+    background: radial-gradient(ellipse at center, #002108 0%, var(--forest) 55%, #000804 100%);
+    border-radius: 14px;
+    overflow:hidden;
+    box-shadow:
+      0 40px 80px -30px rgba(0,0,0,.7),
+      0 20px 40px -20px rgba(0,0,0,.6),
+      0 0 0 1px rgba(255,255,255,.04) inset;
+  }
+  /* subtle paper grain */
+  .card::after{
+    content:"";
+    position:absolute;inset:0;
+    background-image: radial-gradient(rgba(255,255,255,.025) 1px, transparent 1px);
+    background-size: 3px 3px;
+    mix-blend-mode: overlay;
+    pointer-events:none;
+  }
+
+  /* ==== MONOGRAMME CD — neon arcs ==== */
+  .monogram{
+    position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .monogram svg{
+    width:88%;height:auto;
+    filter:
+      drop-shadow(0 0 2px rgba(255,255,255,.95))
+      drop-shadow(0 0 8px rgba(255,255,255,.45))
+      drop-shadow(0 0 22px rgba(180,255,210,.22));
+  }
+  .monogram path{
+    fill:none;
+    stroke:#f6fff6;
+    stroke-width:12;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+
+  /* ==== RECTO ==== */
+  .recto .name{
+    position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    font-family:var(--serif);
+    font-size: clamp(14px, 2.2vw, 22px);
+    letter-spacing:.32em;
+    color:#f6fff6;
+    text-transform:uppercase;
+    white-space:nowrap;
+    text-shadow: 0 0 10px rgba(255,255,255,.15);
+  }
+  .recto .roles{
+    position:absolute;left:50%;bottom:10%;transform:translateX(-50%);
+    font-family:var(--serif);
+    font-size: clamp(8px, 1.1vw, 10px);
+    letter-spacing:.5em;
+    color:#9fb3a3;
+    text-transform:uppercase;
+    white-space:nowrap;
+  }
+  .recto .roles span{margin:0 .4em}
+
+  /* ==== VERSO — piste 1 + 2 ==== */
+  /* Les arcs reviennent en filigrane, fantôme du recto */
+  .verso .monogram svg{
+    width:112%;               /* légèrement plus grand que le recto */
+    opacity:.085;             /* très faible */
+    filter: drop-shadow(0 0 6px rgba(255,255,255,.08));
+  }
+  .verso .monogram path{
+    stroke:#e9fff0;
+    stroke-width:10;
+  }
+
+  /* Contact centré dans le creux des arcs, pas de colonnes, pas de trait */
+  .verso-content{
+    position:absolute;inset:0;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap: clamp(6px, 1.2vw, 11px);
+    text-align:center;
+    padding: 8% 10%;
+  }
+  .verso-content .line{
+    font-family:var(--body);
+    font-size: clamp(10px, 1.35vw, 13px);
+    letter-spacing:.08em;
+    color:#e9ede3;
+    font-weight:400;
+  }
+  .verso-content .line.tel{
+    font-family:var(--serif);
+    font-size: clamp(9px, 1.2vw, 11px);
+    letter-spacing:.38em;
+    color:#f6fff6;
+    text-transform:uppercase;
+    margin-bottom: clamp(2px, .6vw, 6px);
+  }
+  .verso-content .line.url{
+    font-style:italic;
+    color:#c8d4c9;
+  }
+  .verso-content .line.insta{
+    font-family:var(--serif);
+    font-size: clamp(8px, 1.05vw, 10px);
+    letter-spacing:.35em;
+    text-transform:uppercase;
+    color:#9fb3a3;
+    margin-top: clamp(4px, 1vw, 10px);
+  }
+
+  /* QR discret en bas à droite, sans label */
+  .verso-qr{
+    position:absolute;
+    right: 5.5%;
+    bottom: 8%;
+    width: clamp(36px, 6vw, 52px);
+    aspect-ratio: 1;
+    background: #f6fff6;
+    padding: 4px;
+    border-radius: 3px;
+    opacity:.88;
+    box-shadow: 0 0 12px rgba(255,255,255,.08);
+  }
+  .verso-qr svg{width:100%;height:100%;display:block}
+
+  /* petit marker éditorial discret en haut à gauche (optionnel) */
+  .verso-mark{
+    position:absolute;
+    left: 5.5%;
+    top: 8%;
+    font-family:var(--serif);
+    font-size: clamp(7px, .9vw, 9px);
+    letter-spacing:.4em;
+    color:#4c6254;
+    text-transform:uppercase;
+  }
+
+  .note{
+    max-width: 560px;
+    font-family: var(--body);
+    font-size: 15px;
+    line-height: 1.55;
+    color:#9aa19a;
+    text-align:center;
+    font-style: italic;
+  }
+  .note b{color:#d6dcd6;font-style:normal;font-weight:500}
+
+  @media (max-width: 520px){
+    body{padding:32px 16px 64px}
+  }
+</style>
+</head>
+<body>
+
+  <h1 class="page-title">Carte v8 — proposition verso</h1>
+
+  <!-- ============ RECTO (inchangé) ============ -->
+  <div class="stage">
+    <span class="label">Recto</span>
+    <div class="card recto">
+      <div class="monogram">
+        <svg viewBox="0 0 800 400" aria-hidden="true">
+          <!-- C de gauche -->
+          <path d="M 300 70
+                   H 150
+                   Q 60 70 60 170
+                   V 230
+                   Q 60 330 150 330
+                   H 300"/>
+          <!-- C inversé (D) de droite -->
+          <path d="M 500 70
+                   H 650
+                   Q 740 70 740 170
+                   V 230
+                   Q 740 330 650 330
+                   H 500"/>
+        </svg>
+      </div>
+      <div class="name">Clément&nbsp;Delemotte</div>
+      <div class="roles">
+        <span>Photographe</span>·<span>Vidéaste</span>·<span>Monteur</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ VERSO (nouveau — piste 1 + 2) ============ -->
+  <div class="stage">
+    <span class="label">Verso — proposition</span>
+    <div class="card verso">
+
+      <!-- Arcs en filigrane, écho du recto -->
+      <div class="monogram">
+        <svg viewBox="0 0 800 400" aria-hidden="true">
+          <path d="M 300 70 H 150 Q 60 70 60 170 V 230 Q 60 330 150 330 H 300"/>
+          <path d="M 500 70 H 650 Q 740 70 740 170 V 230 Q 740 330 650 330 H 500"/>
+        </svg>
+      </div>
+
+      <!-- Marqueur éditorial discret -->
+      <div class="verso-mark">N°&nbsp;—&nbsp;Éd. 2026</div>
+
+      <!-- Contact : pas de nom, pas de rôle, pas de trait, pas de colonnes -->
+      <div class="verso-content">
+        <div class="line tel">06&nbsp;&nbsp;67&nbsp;&nbsp;42&nbsp;&nbsp;20&nbsp;&nbsp;89</div>
+        <div class="line">clement.delemotte@gmail.com</div>
+        <div class="line url">clementdelemotte.netlify.app</div>
+        <div class="line insta">@clem.delemotte</div>
+      </div>
+
+      <!-- QR minuscule, sans label "PORTFOLIO" -->
+      <div class="verso-qr" aria-label="QR portfolio">
+        <!-- QR mock (pattern décoratif) -->
+        <svg viewBox="0 0 29 29" shape-rendering="crispEdges">
+          <rect width="29" height="29" fill="#f6fff6"/>
+          <g fill="#001401">
+            <!-- finders -->
+            <rect x="0" y="0" width="7" height="7"/>
+            <rect x="1" y="1" width="5" height="5" fill="#f6fff6"/>
+            <rect x="2" y="2" width="3" height="3"/>
+            <rect x="22" y="0" width="7" height="7"/>
+            <rect x="23" y="1" width="5" height="5" fill="#f6fff6"/>
+            <rect x="24" y="2" width="3" height="3"/>
+            <rect x="0" y="22" width="7" height="7"/>
+            <rect x="1" y="23" width="5" height="5" fill="#f6fff6"/>
+            <rect x="2" y="24" width="3" height="3"/>
+            <!-- random modules -->
+            <rect x="9"  y="1" width="1" height="1"/><rect x="11" y="1" width="1" height="1"/><rect x="14" y="1" width="1" height="1"/><rect x="17" y="2" width="1" height="1"/><rect x="19" y="1" width="1" height="1"/>
+            <rect x="8"  y="4" width="1" height="1"/><rect x="10" y="3" width="1" height="1"/><rect x="12" y="5" width="1" height="1"/><rect x="15" y="4" width="1" height="1"/><rect x="18" y="3" width="1" height="1"/><rect x="20" y="5" width="1" height="1"/>
+            <rect x="9"  y="7" width="1" height="1"/><rect x="11" y="8" width="1" height="1"/><rect x="13" y="7" width="1" height="1"/><rect x="16" y="8" width="1" height="1"/><rect x="19" y="7" width="1" height="1"/>
+            <rect x="1"  y="9" width="1" height="1"/><rect x="3" y="10" width="1" height="1"/><rect x="5" y="9" width="1" height="1"/><rect x="7" y="11" width="1" height="1"/>
+            <rect x="9"  y="10" width="1" height="1"/><rect x="11" y="11" width="1" height="1"/><rect x="13" y="10" width="1" height="1"/><rect x="15" y="11" width="1" height="1"/><rect x="17" y="10" width="1" height="1"/><rect x="19" y="11" width="1" height="1"/><rect x="21" y="10" width="1" height="1"/>
+            <rect x="23" y="9" width="1" height="1"/><rect x="25" y="10" width="1" height="1"/><rect x="27" y="11" width="1" height="1"/>
+            <rect x="2"  y="13" width="1" height="1"/><rect x="4" y="14" width="1" height="1"/><rect x="6" y="13" width="1" height="1"/>
+            <rect x="9"  y="13" width="1" height="1"/><rect x="10" y="15" width="1" height="1"/><rect x="12" y="13" width="1" height="1"/><rect x="14" y="14" width="1" height="1"/><rect x="16" y="13" width="1" height="1"/><rect x="18" y="15" width="1" height="1"/><rect x="20" y="13" width="1" height="1"/>
+            <rect x="22" y="14" width="1" height="1"/><rect x="24" y="13" width="1" height="1"/><rect x="26" y="15" width="1" height="1"/><rect x="28" y="13" width="1" height="1"/>
+            <rect x="1"  y="17" width="1" height="1"/><rect x="3" y="18" width="1" height="1"/><rect x="5" y="17" width="1" height="1"/><rect x="7" y="18" width="1" height="1"/>
+            <rect x="10" y="17" width="1" height="1"/><rect x="12" y="18" width="1" height="1"/><rect x="14" y="17" width="1" height="1"/><rect x="16" y="19" width="1" height="1"/><rect x="18" y="17" width="1" height="1"/><rect x="20" y="19" width="1" height="1"/>
+            <rect x="22" y="17" width="1" height="1"/><rect x="24" y="19" width="1" height="1"/><rect x="26" y="17" width="1" height="1"/>
+            <rect x="9"  y="21" width="1" height="1"/><rect x="11" y="22" width="1" height="1"/><rect x="13" y="21" width="1" height="1"/><rect x="15" y="23" width="1" height="1"/><rect x="17" y="21" width="1" height="1"/><rect x="19" y="22" width="1" height="1"/><rect x="21" y="21" width="1" height="1"/>
+            <rect x="23" y="22" width="1" height="1"/><rect x="25" y="21" width="1" height="1"/><rect x="27" y="23" width="1" height="1"/>
+            <rect x="9"  y="25" width="1" height="1"/><rect x="11" y="26" width="1" height="1"/><rect x="13" y="25" width="1" height="1"/><rect x="15" y="27" width="1" height="1"/><rect x="17" y="25" width="1" height="1"/><rect x="19" y="26" width="1" height="1"/><rect x="21" y="25" width="1" height="1"/>
+            <rect x="23" y="27" width="1" height="1"/><rect x="25" y="25" width="1" height="1"/><rect x="27" y="26" width="1" height="1"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <p class="note">
+    Piste <b>1 + 2</b> combinées. Le verso ne répète plus ton nom ni tes rôles (déjà au recto). Les deux arcs lumineux reviennent en <b>filigrane</b> (~8% d'opacité), écho silencieux du recto qui tient toute la carte ensemble. Les infos de contact vivent dans le creux des arcs, sans colonne, sans trait séparateur, en typo pure. Le QR code est minuscule dans le coin — pas de label "portfolio", l'élégance vient du vide.
+  </p>
+
+</body>
+</html>
