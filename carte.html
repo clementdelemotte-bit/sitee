@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>Carte de visite — v8 (proposition verso)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Italiana&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
 <style>
   :root{
     --forest:       #001401;
@@ -12,9 +12,9 @@
     --ivory:        #f3ede0;
     --bone:         #e8dfca;
     --glow:         #ffffff;
-    --serif:        'Cinzel', Georgia, serif;
-    --display:      'Italiana', 'Cinzel', serif;
-    --body:         'EB Garamond', Georgia, serif;
+    --serif:        'Cormorant Garamond', Georgia, serif;
+    --display:      'Cormorant Garamond', Georgia, serif;
+    --body:         'Cormorant Garamond', Georgia, serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{background:#0b0b0b;color:var(--ivory);font-family:var(--body);min-height:100%}
@@ -66,16 +66,18 @@
     display:flex;align-items:center;justify-content:center;
   }
   .monogram svg{
-    width:88%;height:auto;
+    width:94%;height:auto;
     filter:
-      drop-shadow(0 0 2px rgba(255,255,255,.95))
-      drop-shadow(0 0 8px rgba(255,255,255,.45))
-      drop-shadow(0 0 22px rgba(180,255,210,.22));
+      drop-shadow(0 0 2px rgba(255,255,255,1))
+      drop-shadow(0 0 6px rgba(255,255,255,.9))
+      drop-shadow(0 0 14px rgba(255,255,255,.55))
+      drop-shadow(0 0 28px rgba(210,255,225,.35))
+      drop-shadow(0 0 55px rgba(160,240,180,.2));
   }
   .monogram path{
     fill:none;
-    stroke:#f6fff6;
-    stroke-width:12;
+    stroke:#ffffff;
+    stroke-width:16;
     stroke-linecap:round;
     stroke-linejoin:round;
   }
@@ -84,23 +86,25 @@
   .recto .name{
     position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
     font-family:var(--serif);
-    font-size: clamp(14px, 2.2vw, 22px);
-    letter-spacing:.32em;
-    color:#f6fff6;
+    font-weight:400;
+    font-size: clamp(13px, 2vw, 20px);
+    letter-spacing:.28em;
+    color:#f4fff4;
     text-transform:uppercase;
     white-space:nowrap;
-    text-shadow: 0 0 10px rgba(255,255,255,.15);
+    text-shadow: 0 0 12px rgba(255,255,255,.18);
   }
   .recto .roles{
-    position:absolute;left:50%;bottom:10%;transform:translateX(-50%);
+    position:absolute;left:50%;bottom:11%;transform:translateX(-50%);
     font-family:var(--serif);
-    font-size: clamp(8px, 1.1vw, 10px);
-    letter-spacing:.5em;
-    color:#9fb3a3;
+    font-weight:300;
+    font-size: clamp(7px, 1vw, 10px);
+    letter-spacing:.45em;
+    color:#93a898;
     text-transform:uppercase;
     white-space:nowrap;
   }
-  .recto .roles span{margin:0 .4em}
+  .recto .roles span{margin:0 .35em}
 
   /* ==== VERSO — piste 1 + 2 ==== */
   /* Les arcs reviennent en filigrane, fantôme du recto */
@@ -204,19 +208,19 @@
       <div class="monogram">
         <svg viewBox="0 0 800 400" aria-hidden="true">
           <!-- C de gauche -->
-          <path d="M 300 70
-                   H 150
-                   Q 60 70 60 170
-                   V 230
-                   Q 60 330 150 330
-                   H 300"/>
+          <path d="M 370 55
+                   H 160
+                   Q 55 55 55 160
+                   V 240
+                   Q 55 345 160 345
+                   H 370"/>
           <!-- C inversé (D) de droite -->
-          <path d="M 500 70
-                   H 650
-                   Q 740 70 740 170
-                   V 230
-                   Q 740 330 650 330
-                   H 500"/>
+          <path d="M 430 55
+                   H 640
+                   Q 745 55 745 160
+                   V 240
+                   Q 745 345 640 345
+                   H 430"/>
         </svg>
       </div>
       <div class="name">Clément&nbsp;Delemotte</div>
@@ -234,8 +238,8 @@
       <!-- Arcs en filigrane, écho du recto -->
       <div class="monogram">
         <svg viewBox="0 0 800 400" aria-hidden="true">
-          <path d="M 300 70 H 150 Q 60 70 60 170 V 230 Q 60 330 150 330 H 300"/>
-          <path d="M 500 70 H 650 Q 740 70 740 170 V 230 Q 740 330 650 330 H 500"/>
+          <path d="M 370 55 H 160 Q 55 55 55 160 V 240 Q 55 345 160 345 H 370"/>
+          <path d="M 430 55 H 640 Q 745 55 745 160 V 240 Q 745 345 640 345 H 430"/>
         </svg>
       </div>
 
